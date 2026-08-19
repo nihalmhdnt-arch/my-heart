@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For RANIYA ❤️</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #c471ed);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 650px;
+      padding: 40px 25px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 10;
+    }
+
+    .heart {
+      font-size: 75px;
+      animation: heartbeat 1.2s infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.25);
+      }
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 8vw, 4rem);
+      margin-bottom: 10px;
+      text-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .question {
+      font-size: clamp(1.5rem, 6vw, 2.4rem);
+      font-weight: bold;
+      margin: 25px 0;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      position: relative;
+      min-height: 65px;
+    }
+
+    button {
+      border: none;
+      padding: 15px 32px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    #yesBtn {
+      background: #fff;
+      color: #ff4f81;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.1);
+    }
+
+    #noBtn {
+      background: #ff477e;
+      color: white;
+      position: relative;
+    }
+
+    .success {
+      display: none;
+    }
+
+    .success h1 {
+      color: #fff;
+      animation: pop 0.7s ease;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0);
+      }
+      80% {
+        transform: scale(1.15);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .floating-heart {
+      position: fixed;
+      bottom: -50px;
+      font-size: 25px;
+      animation: floatUp linear forwards;
+      opacity: 0.8;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+      }
+      to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 18px;
+        border-radius: 25px;
+      }
+
+      .heart {
+        font-size: 60px;
+      }
+
+      button {
+        padding: 13px 27px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="confetti"></canvas>
+
+  <div class="container" id="proposal">
+
+    <div class="heart">❤️</div>
+
+    <h1>RANIYA</h1>
+
+    <h2>There is something I want to tell you...</h2>
+
+    <p>
+      From the moment you came into my life,
+      everything became a little more beautiful. ✨
+      <br><br>
+      Your smile makes my day brighter,
+      your presence makes my heart happier,
+      and I can't imagine my future without you. ❤️
+    </p>
+
+    <div class="question">
+      RANIYA, Will You Be Mine Forever? 💍❤️
+    </div>
+
+    <div class="buttons">
+      <button id="yesBtn" onclick="sayYes()">
+        YES! ❤️
+      </button>
+
+      <button id="noBtn">
+        NO 😜
+      </button>
+    </div>
+
+  </div>
+
+
+  <div class="container success" id="success">
+
+    <div class="heart">💖</div>
+
+    <h1>YAAAAY! 🥹❤️</h1>
+
+    <h2>RANIYA said YES! 💍</h2>
+
+    <p>
+      You just made me the happiest person alive! ❤️
+      <br><br>
+      I promise to fill our journey with
+      love, laughter, crazy memories and endless happiness. 🥰
+      <br><br>
+      I LOVE YOU, RANIYA! ❤️
+    </p>
+
+    <div style="font-size: 55px;">
+      💑 💕 🥂 💍
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /* -------------------------------
+       NO BUTTON RUNS AWAY 😜
+    -------------------------------- */
+
+    const noBtn = document.getElementById("noBtn");
+
+    function moveNoButton() {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+      const x = Math.max(10, Math.random() * maxX);
+      const y = Math.max(10, Math.random() * maxY);
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+
+
+    /* -------------------------------
+       YES BUTTON
+    -------------------------------- */
+
+    function sayYes() {
+
+      document.getElementById("proposal").style.display = "none";
+      document.getElementById("success").style.display = "block";
+
+      startConfetti();
+
+      // Extra heart explosion
+      for (let i = 0; i < 30; i++) {
+        createHeart();
+      }
+    }
+
+
+    /* -------------------------------
+       FLOATING HEARTS
+    -------------------------------- */
+
+    function createHeart() {
+
+      const heart = document.createElement("div");
+
+      heart.className = "floating-heart";
+
+      const hearts = ["❤️", "💖", "💕", "💗", "💓", "💘"];
+
+      heart.innerHTML =
+        hearts[Math.floor(Math.random() * hearts.length)];
+
+      heart.style.left = Math.random() * 100 + "vw";
+
+      heart.style.animationDuration =
+        (4 + Math.random() * 5) + "s";
+
+      heart.style.fontSize =
+        (18 + Math.random() * 25) + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 9000);
+    }
+
+    setInterval(createHeart, 600);
+
+
+    /* -------------------------------
+       CONFETTI
+    -------------------------------- */
+
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+
+    let confetti = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+
+    window.addEventListener("resize", resizeCanvas);
+
+    function startConfetti() {
+
+      confetti = [];
+
+      for (let i = 0; i < 180; i++) {
+
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * -canvas.height,
+
+          r: Math.random() * 6 + 3,
+
+          color: [
+            "#ff1744",
+            "#ffeb3b",
+            "#00e5ff",
+            "#69f0ae",
+            "#ffffff",
+            "#ff80ab"
+          ][Math.floor(Math.random() * 6)],
+
+          speed: Math.random() * 4 + 2,
+
+          angle: Math.random() * 360,
+
+          rotationSpeed:
+            Math.random() * 10 - 5
+        });
+      }
+
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+
+      ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      confetti.forEach((piece) => {
+
+        piece.y += piece.speed;
+        piece.angle += piece.rotationSpeed;
+
+        if (piece.y > canvas.height + 20) {
+          piece.y = -20;
+          piece.x = Math.random() * canvas.width;
+        }
+
+        ctx.save();
+
+        ctx.translate(piece.x, piece.y);
+
+        ctx.rotate(piece.angle * Math.PI / 180);
+
+        ctx.fillStyle = piece.color;
+
+        ctx.fillRect(
+          -piece.r / 2,
+          -piece.r / 2,
+          piece.r,
+          piece.r * 2
+        );
+
+        ctx.restore();
+
+      });
+
+      requestAnimationFrame(animateConfetti);
+    }
+
+  </script>
+
+</body>
+</html>
